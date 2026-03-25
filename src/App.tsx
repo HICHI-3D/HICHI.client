@@ -1,7 +1,5 @@
 const App = () => {
-  return (
-      <>hichi</>
-  )
-}
+  return <>hichi</>;
+};
 
-export default App
+export default App;
