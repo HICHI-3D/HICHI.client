@@ -1,5 +1,5 @@
 const App = () => {
-  return <>hichi</>;
+  return <div className="title-l underline">Hello Tailwind</div>;
 };
 
 export default App;
