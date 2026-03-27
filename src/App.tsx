@@ -1,5 +1,7 @@
+import Header from '@components/header.tsx';
+
 const App = () => {
-  return <div className="title-l underline">Hello Tailwind</div>;
+  return <Header />;
 };
 
 export default App;
