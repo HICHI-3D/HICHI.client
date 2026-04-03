@@ -1,7 +1,7 @@
-import Header from '@components/header.tsx';
+import FurnitureLayoutEditor from '@pages/FurnitureLayoutEditor.tsx';
 
 const App = () => {
-  return <Header />;
+  return <FurnitureLayoutEditor />;
 };
 
 export default App;

@@ -6,7 +6,7 @@ import Enter from '@assets/icon/enter.svg';
 
 const Header = () => {
   return (
-    <div className="w-screen h-fit fixed flex items-center bg-gray-200 dropshadow-under-12">
+    <div className="w-screen h-fit flex items-center bg-gray-200 ds-under-12 relative z-10">
       <div className={'w-fit px-8 '}>
         <img src={Logo} alt="logo" />
       </div>

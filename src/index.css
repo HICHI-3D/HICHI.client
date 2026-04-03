@@ -50,6 +50,11 @@
   --radius-42: 2.625rem;
   --radius-72: 4.5rem;
   --radius-max: 999rem;
+
+  --shadow-under-2: 0px 2px 4px 0px var(--color-black-20);
+  --shadow-under-12: 0px 12px 16px 0px var(--color-black-20);
+  --shadow-right-12: 12px 0px 16px 0px var(--color-black-20);
+  --shadow-all-12: 0px 0px 16px 0px var(--color-black-20);
 }
 .title-l {
   font-size: 64px;
@@ -100,15 +105,15 @@
   line-height: 14px;
   font-weight: 600;
 }
-.dropshadow-under-2 {
-  box-shadow: 0px 2px 4px 0px var(--black-20);
+.ds-under-2 {
+  box-shadow: 0px 2px 4px 0px var(--color-black-20);
 }
-.dropshadow-under-12 {
-  box-shadow: 0px 12px 16px 0px var(--black-20);
+.ds-under-12 {
+  box-shadow: 0px 12px 16px 0px var(--color-black-20);
 }
-.dropshadow-right-12 {
-  box-shadow: 12px 0px 16px 0px var(--black-20);
+.ds-right-12 {
+  box-shadow: 12px 0px 16px 0px var(--color-black-20);
 }
-.dropshadow-all-12 {
-  box-shadow: 0px 0px 16px 0px var(--black-20);
+.ds-all-12 {
+  box-shadow: 0px 0px 16px 0px var(--color-black-20);
 }
