@@ -34,9 +34,10 @@
   --spacing-20: 1.25rem;
   --spacing-24: 1.5rem;
   --spacing-26: 1.625rem;
+  --spacing-28: 1.75rem;
   --spacing-32: 2rem;
   --spacing-38: 2.375rem;
-  --spacing-48: 2rem;
+  --spacing-48: 3rem;
   --spacing-56: 3.5rem;
   --spacing-64: 4rem;
   --spacing-72: 4.5rem;
@@ -56,64 +57,80 @@
   --shadow-right-12: 12px 0px 16px 0px var(--color-black-20);
   --shadow-all-12: 0px 0px 16px 0px var(--color-black-20);
 }
-.title-l {
+
+/* ── Layout utilities ─────────────────────── */
+@utility flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@utility col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Typography ───────────────────────────── */
+@utility title-l {
   font-size: 64px;
   line-height: 76px;
   font-weight: 900;
   letter-spacing: -0.02em;
 }
-.title-m {
+@utility title-m {
   font-size: 54px;
   line-height: 64px;
   font-weight: 900;
   letter-spacing: -0.02em;
 }
-.title-s {
+@utility title-s {
   font-size: 48px;
   line-height: 58px;
   font-weight: 900;
   letter-spacing: -0.01em;
 }
-.body-l {
+@utility body-l {
   font-size: 24px;
   line-height: 32px;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-.body-m {
+@utility body-m {
   font-size: 20px;
   line-height: 26px;
   font-weight: 700;
 }
-.body-s {
+@utility body-s {
   font-size: 17px;
   line-height: 22px;
   font-weight: 700;
 }
-.label-l {
+@utility label-l {
   font-size: 14px;
   line-height: 18px;
   font-weight: 600;
 }
-.label-m {
+@utility label-m {
   font-size: 12px;
   line-height: 16px;
   font-weight: 600;
 }
-.label-s {
+@utility label-s {
   font-size: 10px;
   line-height: 14px;
   font-weight: 600;
 }
-.ds-under-2 {
+
+/* ── Shadows ──────────────────────────────── */
+@utility ds-under-2 {
   box-shadow: 0px 2px 4px 0px var(--color-black-20);
 }
-.ds-under-12 {
+@utility ds-under-12 {
   box-shadow: 0px 12px 16px 0px var(--color-black-20);
 }
-.ds-right-12 {
+@utility ds-right-12 {
   box-shadow: 12px 0px 16px 0px var(--color-black-20);
 }
-.ds-all-12 {
+@utility ds-all-12 {
   box-shadow: 0px 0px 16px 0px var(--color-black-20);
 }
