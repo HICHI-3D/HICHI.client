@@ -1,7 +1,4 @@
-import Back from '@shared/assets/icon/arrow-back.svg';
-import Undo from '@shared/assets/icon/arrow-undo.svg';
-import Save from '@shared/assets/icon/save.svg';
-import Enter from '@shared/assets/icon/enter.svg';
+import { Icon } from '@shared/ui';
 
 const Header = () => {
   return (
@@ -9,11 +6,11 @@ const Header = () => {
       {/* 실행취소 / 되돌리기 */}
       <div className="flex items-center gap-8">
         <button className="col flex-center gap-4 px-8 py-6 rounded-8 hover:bg-gray-300 transition-colors">
-          <img src={Back} alt="실행취소" className="size-28" />
+          <Icon name="arrow-back" alt="실행취소" className="size-28" />
           <span className="label-m text-gray-500">실행취소</span>
         </button>
         <button className="col flex-center gap-4 px-8 py-6 rounded-8 hover:bg-gray-300 transition-colors">
-          <img src={Undo} alt="되돌리기" className="size-28" />
+          <Icon name="arrow-undo" alt="되돌리기" className="size-28" />
           <span className="label-m text-gray-500">되돌리기</span>
         </button>
       </div>
@@ -38,13 +35,13 @@ const Header = () => {
 
         {/* 저장 버튼 */}
         <button className="col flex-center gap-4 px-12 py-6 bg-functional-indigo rounded-8 hover:bg-functional-indigo-60 transition-colors">
-          <img src={Save} alt="저장" className="size-28" />
+          <Icon name="save" alt="저장" className="size-28" />
           <span className="label-m text-gray-200">저장</span>
         </button>
 
         {/* 나가기 버튼 */}
         <button className="col flex-center gap-4 px-8 py-6 rounded-8 hover:bg-gray-300 transition-colors w-[60px]">
-          <img src={Enter} alt="나가기" className="size-28" />
+          <Icon name="enter" alt="나가기" className="size-28" />
           <span className="label-m text-gray-800">나가기</span>
         </button>
       </div>

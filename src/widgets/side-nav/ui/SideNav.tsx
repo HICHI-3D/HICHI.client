@@ -1,19 +1,17 @@
 import Logo from '@shared/assets/logo.svg';
-import Cube from '@shared/assets/icon/cube.svg';
-import Couch from '@shared/assets/icon/couch.svg';
-import Sparkle from '@shared/assets/icon/sparkle.svg';
+import { Icon, type IconName } from '@shared/ui';
 import type { NavId } from '@widgets/app-shell';
 
 type NavItem = {
   id: NavId;
-  icon: string;
+  icon: IconName;
   label: string;
 };
 
 const navItems: NavItem[] = [
-  { id: 'drawing', icon: Cube, label: '도면 그리기' },
-  { id: 'furniture', icon: Couch, label: '가구 리스트' },
-  { id: 'ai', icon: Sparkle, label: 'AI 배치 추천' },
+  { id: 'drawing', icon: 'cube', label: '도면 그리기' },
+  { id: 'furniture', icon: 'couch', label: '가구 리스트' },
+  { id: 'ai', icon: 'sparkle', label: 'AI 배치 추천' },
 ];
 
 type Props = {
@@ -37,7 +35,6 @@ const SideNav = ({ activeNav, onNavClick }: Props) => {
             <div key={item.id} className="col items-center w-full gap-8">
               {/* AI 배치 추천 위 구분선 */}
               {index === 2 && <div className="w-full h-px bg-gray-400" />}
-
               <button
                 onClick={() => onNavClick(item.id)}
                 className={[
@@ -45,13 +42,11 @@ const SideNav = ({ activeNav, onNavClick }: Props) => {
                   isActive ? 'bg-functional-indigo-20' : 'hover:bg-gray-300',
                 ].join(' ')}
               >
-                <img
-                  src={item.icon}
+                <Icon
+                  name={item.icon}
+                  active={isActive}
                   alt={item.label}
-                  className={[
-                    'size-28',
-                    isActive ? 'bg-functional-indigo' : ' ',
-                  ].join(' ')}
+                  className="size-28"
                 />
                 <span
                   className={[
