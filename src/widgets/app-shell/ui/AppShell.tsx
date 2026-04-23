@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Header from '@components/header.tsx';
-import Side from '@components/side.tsx';
-import DrawingPanel from '@components/DrawingPanel.tsx';
-import FurniturePanel from '@components/FurniturePanel.tsx';
-
-export type NavId = 'drawing' | 'furniture' | 'ai';
+import { Header } from '@widgets/header';
+import { SideNav } from '@widgets/side-nav';
+import { FooterNav } from '@widgets/footer-nav';
+import { DrawingPanel } from '@features/drawing-panel';
+import { FurniturePanel } from '@features/furniture-panel';
+import type { NavId } from '../model/types';
 
 const AppShell = () => {
   const [activeNav, setActiveNav] = useState<NavId | null>(null);
@@ -35,13 +35,13 @@ const AppShell = () => {
   return (
     <div className="flex w-full h-full">
       {/* 사이드바: 전체 높이 */}
-      <Side activeNav={activeNav} onNavClick={handleNavClick} />
+      <SideNav activeNav={activeNav} onNavClick={handleNavClick} />
 
       {/* 오른쪽: 헤더 + 콘텐츠 */}
       <div className="col flex-1 min-w-0">
         <Header />
 
-        {/* 헤더 아래: 패널(옵션) + 캔버스 */}
+        {/* 헤더 아래: 패널(옵션) + [캔버스 + 풋터] */}
         <div className="flex flex-1 min-h-0">
           {isPanelOpen && activeNav === 'drawing' && (
             <DrawingPanel
@@ -53,7 +53,12 @@ const AppShell = () => {
           {isPanelOpen && activeNav === 'furniture' && (
             <FurniturePanel onClose={handleClosePanel} />
           )}
-          <main className="flex-1 bg-gray-100" />
+
+          {/* 캔버스 + 풋터 네브 */}
+          <div className="col flex-1 min-w-0 min-h-0">
+            <main className="flex-1 bg-gray-100" />
+            <FooterNav />
+          </div>
         </div>
       </div>
     </div>

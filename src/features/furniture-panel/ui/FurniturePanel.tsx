@@ -1,11 +1,7 @@
 import { useState } from 'react';
+import type { FurnitureItem } from '@entities/furniture';
 
 type Tab = '전체' | '즐겨찾기' | '배치된 가구';
-
-type FurnitureItem = {
-  id: number;
-  name: string;
-};
 
 // 임시 가구 데이터 (추후 실제 데이터로 교체)
 const furnitureItems: FurnitureItem[] = [

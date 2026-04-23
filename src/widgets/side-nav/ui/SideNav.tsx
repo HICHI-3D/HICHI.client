@@ -1,8 +1,8 @@
-import Logo from '@assets/logo.svg';
-import Cube from '@assets/icon/cube.svg';
-import Couch from '@assets/icon/couch.svg';
-import Sparkle from '@assets/icon/sparkle.svg';
-import type { NavId } from '@components/AppShell.tsx';
+import Logo from '@shared/assets/logo.svg';
+import Cube from '@shared/assets/icon/cube.svg';
+import Couch from '@shared/assets/icon/couch.svg';
+import Sparkle from '@shared/assets/icon/sparkle.svg';
+import type { NavId } from '@widgets/app-shell';
 
 type NavItem = {
   id: NavId;
@@ -21,7 +21,7 @@ type Props = {
   onNavClick: (id: NavId) => void;
 };
 
-const Side = ({ activeNav, onNavClick }: Props) => {
+const SideNav = ({ activeNav, onNavClick }: Props) => {
   return (
     <nav className="col h-full bg-gray-200 ds-right-12 shrink-0">
       {/* 로고 */}
@@ -45,7 +45,14 @@ const Side = ({ activeNav, onNavClick }: Props) => {
                   isActive ? 'bg-functional-indigo-20' : 'hover:bg-gray-300',
                 ].join(' ')}
               >
-                <img src={item.icon} alt={item.label} className="size-28" />
+                <img
+                  src={item.icon}
+                  alt={item.label}
+                  className={[
+                    'size-28',
+                    isActive ? 'bg-functional-indigo' : ' ',
+                  ].join(' ')}
+                />
                 <span
                   className={[
                     'label-m',
@@ -63,4 +70,4 @@ const Side = ({ activeNav, onNavClick }: Props) => {
   );
 };
 
-export default Side;
+export default SideNav;

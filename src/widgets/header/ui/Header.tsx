@@ -1,7 +1,7 @@
-import Back from '@assets/icon/arrow-back.svg';
-import Undo from '@assets/icon/arrow-undo.svg';
-import Save from '@assets/icon/save.svg';
-import Enter from '@assets/icon/enter.svg';
+import Back from '@shared/assets/icon/arrow-back.svg';
+import Undo from '@shared/assets/icon/arrow-undo.svg';
+import Save from '@shared/assets/icon/save.svg';
+import Enter from '@shared/assets/icon/enter.svg';
 
 const Header = () => {
   return (

@@ -1,4 +1,4 @@
-import AppShell from '@components/AppShell.tsx';
+import { AppShell } from '@widgets/app-shell';
 
 const FurnitureLayoutEditor = () => {
   return (
