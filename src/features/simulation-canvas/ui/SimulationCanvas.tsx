@@ -151,7 +151,9 @@ const SimulationCanvas = ({ editor }: Props) => {
 
     if (mode === 'room') {
       const pts = [...draftPoints, hoverPoint];
-      const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x} ${p.y}`).join(' ');
+      const d = pts
+        .map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x} ${p.y}`)
+        .join(' ');
       return (
         <g>
           <path
@@ -234,7 +236,8 @@ const SimulationCanvas = ({ editor }: Props) => {
   const renderShape = (s: Shape) => {
     const isHover = hoveredShapeId === s.id;
     const stroke = mode === 'delete' && isHover ? '#ef4444' : '#474645';
-    const fill = mode === 'delete' && isHover ? 'rgba(239,68,68,0.15)' : undefined;
+    const fill =
+      mode === 'delete' && isHover ? 'rgba(239,68,68,0.15)' : undefined;
 
     const shapeProps = {
       onPointerEnter: () => setHoveredShapeId(s.id),
@@ -267,8 +270,9 @@ const SimulationCanvas = ({ editor }: Props) => {
         );
       case 'room': {
         const d =
-          s.points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x} ${p.y}`).join(' ') +
-          ' Z';
+          s.points
+            .map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x} ${p.y}`)
+            .join(' ') + ' Z';
         return (
           <path
             key={s.id}

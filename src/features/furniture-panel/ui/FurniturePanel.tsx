@@ -77,9 +77,11 @@ const FurniturePanel = ({ onClose }: Props) => {
   );
 
   return (
-    <aside className="
+    <aside
+      className="
       col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 ds-right-12
-    ">
+    "
+    >
       {/* 패널 헤더 */}
       <div className="flex shrink-0 items-center justify-between px-12 py-8">
         <span className="body-s text-black">가구 리스트</span>
@@ -121,9 +123,11 @@ const FurniturePanel = ({ onClose }: Props) => {
           </div>
 
           {/* 검색바 */}
-          <div className="
+          <div
+            className="
             flex items-center gap-8 rounded-8 bg-gray-200 p-12 ds-under-2
-          ">
+          "
+          >
             <span className="shrink-0 text-gray-500">
               <SearchIcon />
             </span>

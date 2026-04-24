@@ -12,7 +12,14 @@ export type DrawingMode =
 export type Shape =
   | { id: string; type: 'wall'; start: Point; end: Point }
   | { id: string; type: 'room'; points: Point[] }
-  | { id: string; type: 'rect-column'; x: number; y: number; w: number; h: number }
+  | {
+      id: string;
+      type: 'rect-column';
+      x: number;
+      y: number;
+      w: number;
+      h: number;
+    }
   | { id: string; type: 'circle-column'; cx: number; cy: number; r: number }
   | { id: string; type: 'aux-line'; start: Point; end: Point }
   | { id: string; type: 'measurement'; start: Point; end: Point };

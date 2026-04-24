@@ -20,17 +20,40 @@ const toolGroups: ToolGroup[] = [
 // 패널 접기 아이콘 (sidebar.left)
 const CollapseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <rect x="2.5" y="3.5" width="19" height="17" rx="2" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="8.5" y1="3.5" x2="8.5" y2="20.5" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M13 9.5L11 12L13 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <rect
+      x="2.5"
+      y="3.5"
+      width="19"
+      height="17"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <line
+      x1="8.5"
+      y1="3.5"
+      x2="8.5"
+      y2="20.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M13 9.5L11 12L13 14.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 const DrawingPanel = ({ activeTool, onToolClick, onClose }: Props) => {
   return (
-    <aside className="
+    <aside
+      className="
       col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 ds-right-12
-    ">
+    "
+    >
       {/* 패널 헤더 */}
       <div className="flex shrink-0 items-center justify-between px-12 py-8">
         <span className="body-s text-black">도면 그리기</span>

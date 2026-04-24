@@ -17,7 +17,8 @@ export type IconName =
   | 'arrow-back'
   | 'arrow-undo'
   | 'save'
-  | 'enter';
+  | 'enter'
+  | 'setting';
 
 type Props = {
   name: IconName;

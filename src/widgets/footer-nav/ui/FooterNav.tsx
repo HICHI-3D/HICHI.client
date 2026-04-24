@@ -1,5 +1,5 @@
 import type { Editor } from '@features/simulation-canvas';
-import type { Unit,ViewMode } from '@features/simulation-canvas';
+import type { Unit, ViewMode } from '@features/simulation-canvas';
 
 type Props = {
   editor: Editor;
@@ -42,23 +42,71 @@ const CameraIcon = () => (
 
 const PlusIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <line x1="14" y1="6" x2="14" y2="22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <line x1="6" y1="14" x2="22" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <line
+      x1="14"
+      y1="6"
+      x2="14"
+      y2="22"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <line
+      x1="6"
+      y1="14"
+      x2="22"
+      y2="14"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const MinusIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <line x1="6" y1="14" x2="22" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <line
+      x1="6"
+      y1="14"
+      x2="22"
+      y2="14"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const ExpandIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <path d="M7 7L11 11M7 7H11M7 7V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M21 7L17 11M21 7H17M21 7V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M7 21L11 17M7 21H11M7 21V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M21 21L17 17M21 21H17M21 21V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M7 7L11 11M7 7H11M7 7V11"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M21 7L17 11M21 7H17M21 7V11"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M7 21L11 17M7 21H11M7 21V17"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M21 21L17 17M21 21H17M21 21V17"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -113,10 +161,16 @@ const FooterNav = ({ editor, onFitView }: Props) => {
       </div>
 
       {/* ── 도구 버튼 그룹 ── */}
-      <div className="
+      <div
+        className="
         flex items-center gap-8 rounded-8 bg-gray-100 p-4 ds-all-12
-      ">
-        <ToolBtn active={viewport.locked} onClick={toggleLock} title="화면 잠금">
+      "
+      >
+        <ToolBtn
+          active={viewport.locked}
+          onClick={toggleLock}
+          title="화면 잠금"
+        >
           <LockIcon open={!viewport.locked} />
         </ToolBtn>
         <ToolBtn onClick={onFitView} title="화면 맞춤">

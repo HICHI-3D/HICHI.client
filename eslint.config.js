@@ -7,6 +7,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import betterTailwind from 'eslint-plugin-better-tailwindcss';
 import tseslint from 'typescript-eslint';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -22,6 +23,7 @@ export default defineConfig([
       reactRefresh.configs.vite,
       jsxA11y.flatConfigs.recommended,
       betterTailwind.configs['recommended-warn'],
+      eslintConfigPrettier,
     ],
     plugins: {
       'simple-import-sort': simpleImportSort,

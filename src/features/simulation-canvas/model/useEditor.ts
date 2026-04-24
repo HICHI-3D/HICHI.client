@@ -102,7 +102,11 @@ export function useEditor() {
             const dx = world.x - first.x;
             const dy = world.y - first.y;
             if (Math.hypot(dx, dy) < 300) {
-              commitShape({ id: uid(), type: 'room', points: points.slice(0, -1) });
+              commitShape({
+                id: uid(),
+                type: 'room',
+                points: points.slice(0, -1),
+              });
               return [];
             }
           }
@@ -162,20 +166,23 @@ export function useEditor() {
     [viewport.locked],
   );
 
-  const zoomAt = useCallback((factor: number, center?: { x: number; y: number }) => {
-    setViewport((v) => {
-      const nextZoom = Math.min(3, Math.max(0.05, v.zoom * factor));
-      if (!center) return { ...v, zoom: nextZoom };
-      // zoom toward cursor position in screen coords
-      const ratio = nextZoom / v.zoom;
-      return {
-        ...v,
-        zoom: nextZoom,
-        panX: center.x - (center.x - v.panX) * ratio,
-        panY: center.y - (center.y - v.panY) * ratio,
-      };
-    });
-  }, []);
+  const zoomAt = useCallback(
+    (factor: number, center?: { x: number; y: number }) => {
+      setViewport((v) => {
+        const nextZoom = Math.min(3, Math.max(0.05, v.zoom * factor));
+        if (!center) return { ...v, zoom: nextZoom };
+        // zoom toward cursor position in screen coords
+        const ratio = nextZoom / v.zoom;
+        return {
+          ...v,
+          zoom: nextZoom,
+          panX: center.x - (center.x - v.panX) * ratio,
+          panY: center.y - (center.y - v.panY) * ratio,
+        };
+      });
+    },
+    [],
+  );
 
   const toggleLock = useCallback(
     () => setViewport((v) => ({ ...v, locked: !v.locked })),
@@ -210,7 +217,11 @@ export function useEditor() {
         if (p.y > maxY) maxY = p.y;
       };
       for (const s of shapes) {
-        if (s.type === 'wall' || s.type === 'aux-line' || s.type === 'measurement') {
+        if (
+          s.type === 'wall' ||
+          s.type === 'aux-line' ||
+          s.type === 'measurement'
+        ) {
           visit(s.start);
           visit(s.end);
         } else if (s.type === 'room') {
