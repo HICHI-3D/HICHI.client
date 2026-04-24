@@ -18,7 +18,12 @@ export type IconName =
   | 'arrow-undo'
   | 'save'
   | 'enter'
-  | 'setting';
+  | 'setting'
+  | 'lock'
+  | 'camera'
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'zoomFit';
 
 type Props = {
   name: IconName;

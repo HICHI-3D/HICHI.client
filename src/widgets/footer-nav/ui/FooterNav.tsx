@@ -1,114 +1,11 @@
 import type { Editor } from '@features/simulation-canvas';
 import type { Unit, ViewMode } from '@features/simulation-canvas';
+import { Icon } from '@shared/ui';
 
 type Props = {
   editor: Editor;
   onFitView: () => void;
 };
-
-/* ── 아이콘 ─────────────────────────────────────── */
-
-const LockIcon = ({ open }: { open?: boolean }) => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <rect
-      x="6.5"
-      y="13"
-      width="15"
-      height="11"
-      rx="2"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <path
-      d={open ? 'M10 13V9.5a4 4 0 0 1 8 0V11' : 'M10 13V9.5a4 4 0 0 1 8 0V13'}
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const CameraIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <path
-      d="M5 9V7.5A1.5 1.5 0 0 1 6.5 6H9M23 9V7.5A1.5 1.5 0 0 0 21.5 6H19M5 19v1.5A1.5 1.5 0 0 0 6.5 22H9M23 19v1.5A1.5 1.5 0 0 1 21.5 22H19"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <circle cx="14" cy="14" r="3.5" stroke="currentColor" strokeWidth="1.5" />
-  </svg>
-);
-
-const PlusIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <line
-      x1="14"
-      y1="6"
-      x2="14"
-      y2="22"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="6"
-      y1="14"
-      x2="22"
-      y2="14"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const MinusIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <line
-      x1="6"
-      y1="14"
-      x2="22"
-      y2="14"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const ExpandIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <path
-      d="M7 7L11 11M7 7H11M7 7V11"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M21 7L17 11M21 7H17M21 7V11"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M7 21L11 17M7 21H11M7 21V17"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M21 21L17 17M21 21H17M21 21V17"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 /* ── 재사용 버튼 ────────────────────────────────── */
 
@@ -141,9 +38,9 @@ const FooterNav = ({ editor, onFitView }: Props) => {
     editor;
 
   return (
-    <footer className="flex shrink-0 items-center justify-between p-12">
+    <footer className="absolute bottom-0 left-0 w-full  flex shrink-0 items-center justify-between p-12">
       {/* ── 2D / 3D 전환 ── */}
-      <div className="flex rounded-12 p-4 ds-all-12">
+      <div className="flex rounded-12 p-4 ds-all-12 gap-8">
         {(['2D', '3D'] as ViewMode[]).map((mode) => (
           <button
             key={mode}
@@ -171,25 +68,23 @@ const FooterNav = ({ editor, onFitView }: Props) => {
           onClick={toggleLock}
           title="화면 잠금"
         >
-          <LockIcon open={!viewport.locked} />
+          <Icon name="lock" alt="화면 잠금" className="size-28" />
         </ToolBtn>
         <ToolBtn onClick={onFitView} title="화면 맞춤">
-          <CameraIcon />
+          <Icon name="camera" alt="화면 맞춤" className="size-28" />
         </ToolBtn>
         <ToolBtn onClick={() => zoomAt(1.2)} title="확대">
-          <PlusIcon />
+          <Icon name="zoomIn" alt="확대" className="size-28" />
         </ToolBtn>
         <ToolBtn onClick={() => zoomAt(1 / 1.2)} title="축소">
-          <MinusIcon />
+          <Icon name="zoomOut" alt="축소" className="size-28" />
         </ToolBtn>
         <ToolBtn onClick={onFitView} title="전체 보기">
-          <ExpandIcon />
+          <Icon name="zoomFit" alt="전체 보기" className="size-28" />
         </ToolBtn>
 
-        {/* 세로 구분선 */}
         <div className="mx-4 w-px self-stretch bg-gray-400" />
 
-        {/* 단위 전환 */}
         {(['mm', 'ft/in'] as Unit[]).map((u) => (
           <button
             key={u}
