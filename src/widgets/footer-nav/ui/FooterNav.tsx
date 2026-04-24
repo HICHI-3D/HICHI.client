@@ -38,7 +38,10 @@ const FooterNav = ({ editor, onFitView }: Props) => {
     editor;
 
   return (
-    <footer className="absolute bottom-0 left-0 w-full  flex shrink-0 items-center justify-between p-12">
+    <footer
+      className="absolute w-full  flex shrink-0 items-center justify-between p-12"
+      style={{ bottom: 0, left: 0 }}
+    >
       {/* ── 2D / 3D 전환 ── */}
       <div className="flex rounded-12 p-4 ds-all-12 gap-8">
         {(['2D', '3D'] as ViewMode[]).map((mode) => (

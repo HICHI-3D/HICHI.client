@@ -58,10 +58,8 @@ const AppShell = () => {
   return (
     <div className="flex size-full">
       <SideNav activeNav={activeNav} onNavClick={handleNavClick} />
-
       <div className="min-w-0 col flex-1">
         <Header />
-
         <div className="min-h-0 flex flex-1">
           {isPanelOpen && activeNav === 'drawing' && (
             <DrawingPanel
@@ -73,8 +71,7 @@ const AppShell = () => {
           {isPanelOpen && activeNav === 'furniture' && (
             <FurniturePanel onClose={handleClosePanel} />
           )}
-
-          <div className="min-w-0 min-h-0 col flex-1">
+          <div className="min-w-0 min-h-0 w-full col flex-1 relative">
             <div ref={canvasAreaRef} className="min-h-0 flex-1">
               <SimulationCanvas editor={editor} />
             </div>
