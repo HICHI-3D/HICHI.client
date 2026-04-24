@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import type { FurnitureItem } from '@entities/furniture';
+import { useState } from 'react';
 
 type Tab = '전체' | '즐겨찾기' | '배치된 가구';
 
@@ -77,25 +77,31 @@ const FurniturePanel = ({ onClose }: Props) => {
   );
 
   return (
-    <aside className="col h-full w-[284px] bg-gray-100 ds-right-12 shrink-0 overflow-hidden">
+    <aside className="
+      col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 ds-right-12
+    ">
       {/* 패널 헤더 */}
-      <div className="flex items-center justify-between px-12 py-8 shrink-0">
+      <div className="flex shrink-0 items-center justify-between px-12 py-8">
         <span className="body-s text-black">가구 리스트</span>
         <button
           onClick={onClose}
-          className="flex-center size-24 rounded-8 hover:bg-gray-300 transition-colors text-gray-700 cursor-pointer"
+          className="
+            flex-center size-24 cursor-pointer rounded-8 text-gray-700
+            transition-colors
+            hover:bg-gray-300
+          "
         >
           <CollapseIcon />
         </button>
       </div>
 
       {/* 구분선 */}
-      <div className="h-px w-full bg-gray-400 shrink-0" />
+      <div className="h-px w-full shrink-0 bg-gray-400" />
 
       {/* 내용 */}
-      <div className="col gap-12 px-12 py-8 flex-1 overflow-hidden">
+      <div className="col flex-1 gap-12 overflow-hidden px-12 py-8">
         {/* 탭 + 검색 */}
-        <div className="col gap-4 shrink-0">
+        <div className="col shrink-0 gap-4">
           {/* 탭 */}
           <div className="flex items-center">
             {tabs.map((tab) => (
@@ -115,8 +121,10 @@ const FurniturePanel = ({ onClose }: Props) => {
           </div>
 
           {/* 검색바 */}
-          <div className="flex items-center gap-8 px-12 py-12 bg-gray-200 rounded-8 ds-under-2">
-            <span className="text-gray-500 shrink-0">
+          <div className="
+            flex items-center gap-8 rounded-8 bg-gray-200 p-12 ds-under-2
+          ">
+            <span className="shrink-0 text-gray-500">
               <SearchIcon />
             </span>
             <input
@@ -124,13 +132,16 @@ const FurniturePanel = ({ onClose }: Props) => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="가구명을 입력하세요"
-              className="flex-1 bg-transparent label-l text-gray-500 placeholder:text-gray-500 outline-none"
+              className="
+                flex-1 bg-transparent label-l text-gray-500 outline-none
+                placeholder:text-gray-500
+              "
             />
           </div>
         </div>
 
         {/* 구분선 */}
-        <div className="h-px w-full bg-gray-400 shrink-0" />
+        <div className="h-px w-full shrink-0 bg-gray-400" />
 
         {/* 가구 그리드 */}
         <div className="grid grid-cols-2 gap-12 overflow-y-auto">
@@ -156,7 +167,7 @@ const FurniturePanel = ({ onClose }: Props) => {
                   {item.name}
                 </span>
                 {/* 가구 이미지 placeholder */}
-                <div className="rounded-8 size-[108px] bg-gray-100" />
+                <div className="size-[108px] rounded-8 bg-gray-100" />
               </button>
             );
           })}

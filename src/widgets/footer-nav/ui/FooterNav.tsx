@@ -1,5 +1,5 @@
 import type { Editor } from '@features/simulation-canvas';
-import type { ViewMode, Unit } from '@features/simulation-canvas';
+import type { Unit,ViewMode } from '@features/simulation-canvas';
 
 type Props = {
   editor: Editor;
@@ -93,9 +93,9 @@ const FooterNav = ({ editor, onFitView }: Props) => {
     editor;
 
   return (
-    <footer className="flex items-center justify-between px-12 py-12 shrink-0">
+    <footer className="flex shrink-0 items-center justify-between p-12">
       {/* ── 2D / 3D 전환 ── */}
-      <div className="flex p-4 rounded-12 ds-all-12">
+      <div className="flex rounded-12 p-4 ds-all-12">
         {(['2D', '3D'] as ViewMode[]).map((mode) => (
           <button
             key={mode}
@@ -113,7 +113,9 @@ const FooterNav = ({ editor, onFitView }: Props) => {
       </div>
 
       {/* ── 도구 버튼 그룹 ── */}
-      <div className="flex items-center gap-8 px-4 py-4 bg-gray-100 rounded-8 ds-all-12">
+      <div className="
+        flex items-center gap-8 rounded-8 bg-gray-100 p-4 ds-all-12
+      ">
         <ToolBtn active={viewport.locked} onClick={toggleLock} title="화면 잠금">
           <LockIcon open={!viewport.locked} />
         </ToolBtn>
@@ -131,7 +133,7 @@ const FooterNav = ({ editor, onFitView }: Props) => {
         </ToolBtn>
 
         {/* 세로 구분선 */}
-        <div className="w-px self-stretch bg-gray-400 mx-4" />
+        <div className="mx-4 w-px self-stretch bg-gray-400" />
 
         {/* 단위 전환 */}
         {(['mm', 'ft/in'] as Unit[]).map((u) => (

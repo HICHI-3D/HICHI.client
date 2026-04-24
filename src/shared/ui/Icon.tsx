@@ -1,4 +1,4 @@
-const modules = import.meta.glob<string>('/src/shared/assets/icon/*.svg', {
+const modules = import.meta.glob<string>('/src/shared/assets/icon/**/*.svg', {
   eager: true,
   query: '?url',
   import: 'default',

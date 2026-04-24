@@ -28,23 +28,29 @@ const CollapseIcon = () => (
 
 const DrawingPanel = ({ activeTool, onToolClick, onClose }: Props) => {
   return (
-    <aside className="col h-full w-[284px] bg-gray-100 ds-right-12 shrink-0 overflow-hidden">
+    <aside className="
+      col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 ds-right-12
+    ">
       {/* 패널 헤더 */}
-      <div className="flex items-center justify-between px-12 py-8 shrink-0">
+      <div className="flex shrink-0 items-center justify-between px-12 py-8">
         <span className="body-s text-black">도면 그리기</span>
         <button
           onClick={onClose}
-          className="flex-center size-24 rounded-8 hover:bg-gray-300 transition-colors text-gray-700 cursor-pointer"
+          className="
+            flex-center size-24 cursor-pointer rounded-8 text-gray-700
+            transition-colors
+            hover:bg-gray-300
+          "
         >
           <CollapseIcon />
         </button>
       </div>
 
       {/* 구분선 */}
-      <div className="h-px w-full bg-gray-400 shrink-0" />
+      <div className="h-px w-full shrink-0 bg-gray-400" />
 
       {/* 도구 목록 */}
-      <div className="col gap-12 px-12 py-8 flex-1 overflow-y-auto">
+      <div className="col flex-1 gap-12 overflow-y-auto px-12 py-8">
         {toolGroups.map((group) => (
           <div key={group.category} className="col gap-4">
             {/* 카테고리 라벨 */}

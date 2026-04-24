@@ -1,31 +1,51 @@
-import { Icon } from '@shared/ui';
+import { Icon, type IconName } from '@shared/ui';
+
+type NavItem = {
+  id: number;
+  icon: IconName;
+  text: string;
+};
 
 const Header = () => {
+  const UndoRedoList: NavItem[] = [
+    { id: 0, icon: 'arrow-back', text: '실행취소' },
+    { id: 1, icon: 'arrow-undo', text: '되돌리기' },
+  ];
   return (
-    <header className="flex items-center justify-between bg-gray-200 ds-under-12 px-12 py-12 shrink-0 w-full">
+    <header className="
+      flex w-full shrink-0 items-center justify-between bg-gray-200 p-12
+      ds-under-12
+    ">
       {/* 실행취소 / 되돌리기 */}
       <div className="flex items-center gap-8">
-        <button className="col flex-center gap-4 px-8 py-6 rounded-8 hover:bg-gray-300 transition-colors">
-          <Icon name="arrow-back" alt="실행취소" className="size-28" />
-          <span className="label-m text-gray-500">실행취소</span>
-        </button>
-        <button className="col flex-center gap-4 px-8 py-6 rounded-8 hover:bg-gray-300 transition-colors">
-          <Icon name="arrow-undo" alt="되돌리기" className="size-28" />
-          <span className="label-m text-gray-500">되돌리기</span>
-        </button>
+        {UndoRedoList.map((item) => (
+          <button
+            key={item.id}
+            className="
+              col flex-center gap-4 rounded-8 px-8 py-6 transition-colors
+              hover:bg-gray-300
+            "
+          >
+            <Icon name={item.icon} alt={item.text} className="size-28" />
+            <span className="label-m text-gray-500">{item.text}</span>
+          </button>
+        ))}
       </div>
 
       {/* 프로필 카드 / 저장 / 나가기 */}
       <div className="flex items-center gap-8">
         {/* 유저 프로필 카드 */}
-        <div className="flex items-center gap-12 px-16 py-12 bg-gray-100 rounded-8 ds-all-12 w-[183px]">
-          <div className="size-28 rounded-max bg-functional-indigo shrink-0" />
-          <div className="col flex-1 min-w-0">
-            <span className="label-m text-gray-800 truncate">s0meri</span>
-            <span className="label-s text-gray-600 truncate">저장 이력 없음</span>
+        <div className="
+          flex w-[183px] items-center gap-12 rounded-8 bg-gray-100 px-16 py-12
+          ds-all-12
+        ">
+          <div className="size-28 shrink-0 rounded-max bg-functional-indigo" />
+          <div className="min-w-0 col flex-1">
+            <span className="truncate label-m text-gray-800">s0meri</span>
+            <span className="truncate label-s text-gray-600">저장 이력 없음</span>
           </div>
-          <div className="w-px self-stretch bg-gray-400 shrink-0" />
-          <div className="size-28 shrink-0 flex-center text-gray-500">
+          <div className="w-px shrink-0 self-stretch bg-gray-400" />
+          <div className="flex-center size-28 shrink-0 text-gray-500">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
               <path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -34,13 +54,20 @@ const Header = () => {
         </div>
 
         {/* 저장 버튼 */}
-        <button className="col flex-center gap-4 px-12 py-6 bg-functional-indigo rounded-8 hover:bg-functional-indigo-60 transition-colors">
+        <button className="
+          col flex-center gap-4 rounded-8 bg-functional-indigo px-12 py-6
+          transition-colors
+          hover:bg-functional-indigo-60
+        ">
           <Icon name="save" alt="저장" className="size-28" />
           <span className="label-m text-gray-200">저장</span>
         </button>
 
         {/* 나가기 버튼 */}
-        <button className="col flex-center gap-4 px-8 py-6 rounded-8 hover:bg-gray-300 transition-colors w-[60px]">
+        <button className="
+          col flex-center w-[60px] gap-4 rounded-8 px-8 py-6 transition-colors
+          hover:bg-gray-300
+        ">
           <Icon name="enter" alt="나가기" className="size-28" />
           <span className="label-m text-gray-800">나가기</span>
         </button>

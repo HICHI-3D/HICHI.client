@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Editor } from '../model/useEditor';
+
 import type { Point, Shape } from '../model/types';
+import type { Editor } from '../model/useEditor';
 
 type Props = { editor: Editor };
 
@@ -376,7 +377,7 @@ const SimulationCanvas = ({ editor }: Props) => {
   return (
     <svg
       ref={svgRef}
-      className="w-full h-full block select-none touch-none"
+      className="block size-full touch-none select-none"
       style={{ cursor, background: '#f7f5f1' }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}

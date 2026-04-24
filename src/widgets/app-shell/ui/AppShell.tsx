@@ -1,7 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
-import { Header } from '@widgets/header';
-import { SideNav } from '@widgets/side-nav';
-import { FooterNav } from '@widgets/footer-nav';
 import { DrawingPanel } from '@features/drawing-panel';
 import { FurniturePanel } from '@features/furniture-panel';
 import {
@@ -9,6 +5,11 @@ import {
   toolLabelToMode,
   useEditor,
 } from '@features/simulation-canvas';
+import { FooterNav } from '@widgets/footer-nav';
+import { Header } from '@widgets/header';
+import { SideNav } from '@widgets/side-nav';
+import { useEffect, useRef, useState } from 'react';
+
 import type { NavId } from '../model/types';
 
 const AppShell = () => {
@@ -55,13 +56,13 @@ const AppShell = () => {
   const isPanelOpen = activeNav === 'drawing' || activeNav === 'furniture';
 
   return (
-    <div className="flex w-full h-full">
+    <div className="flex size-full">
       <SideNav activeNav={activeNav} onNavClick={handleNavClick} />
 
-      <div className="col flex-1 min-w-0">
+      <div className="min-w-0 col flex-1">
         <Header />
 
-        <div className="flex flex-1 min-h-0">
+        <div className="min-h-0 flex flex-1">
           {isPanelOpen && activeNav === 'drawing' && (
             <DrawingPanel
               activeTool={activeTool}
@@ -73,8 +74,8 @@ const AppShell = () => {
             <FurniturePanel onClose={handleClosePanel} />
           )}
 
-          <div className="col flex-1 min-w-0 min-h-0">
-            <div ref={canvasAreaRef} className="flex-1 min-h-0">
+          <div className="min-w-0 min-h-0 col flex-1">
+            <div ref={canvasAreaRef} className="min-h-0 flex-1">
               <SimulationCanvas editor={editor} />
             </div>
             <FooterNav editor={editor} onFitView={fitToView} />

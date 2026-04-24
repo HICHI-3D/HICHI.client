@@ -21,20 +21,20 @@ type Props = {
 
 const SideNav = ({ activeNav, onNavClick }: Props) => {
   return (
-    <nav className="col h-full bg-gray-200 ds-right-12 shrink-0">
+    <nav className="col h-full shrink-0 bg-gray-200 ds-right-12">
       {/* 로고 */}
-      <div className="flex-center border-b border-gray-400 py-20 px-12 shrink-0">
+      <div className="flex-center shrink-0 border-b border-gray-400 px-12 py-20">
         <img src={Logo} alt="HICHI" className="h-11" />
       </div>
 
       {/* 네비게이션 버튼 */}
-      <div className="col flex-1 items-center justify-center gap-8 px-12 py-12">
+      <div className="col flex-1 items-center justify-center gap-8 p-12">
         {navItems.map((item, index) => {
           const isActive = activeNav === item.id;
           return (
-            <div key={item.id} className="col items-center w-full gap-8">
+            <div key={item.id} className="col w-full items-center gap-8">
               {/* AI 배치 추천 위 구분선 */}
-              {index === 2 && <div className="w-full h-px bg-gray-400" />}
+              {index === 2 && <div className="h-px w-full bg-gray-400" />}
               <button
                 onClick={() => onNavClick(item.id)}
                 className={[
