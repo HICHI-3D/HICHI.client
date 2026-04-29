@@ -1,14 +1,16 @@
 import { DrawingPanel } from '@features/drawing-panel';
 import { FurniturePanel } from '@features/furniture-panel';
 import {
+  parsedToShapes,
   SimulationCanvas,
   toolLabelToMode,
   useEditor,
 } from '@features/simulation-canvas';
+import { uploadFloorPlan } from '@shared/api';
 import { FooterNav } from '@widgets/footer-nav';
 import { Header } from '@widgets/header';
 import { SideNav } from '@widgets/side-nav';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { NavId } from '../model/types';
 
@@ -53,6 +55,27 @@ const AppShell = () => {
     editor.fitView(el.clientWidth, el.clientHeight);
   };
 
+  const handleUploadFloorPlan = useCallback(
+    async (file: File) => {
+      const result = await uploadFloorPlan(file);
+      if (result.status === 'failed' || !result.parsed) {
+        throw new Error(result.error ?? 'AI 파싱 실패');
+      }
+      const shapes = parsedToShapes(result.parsed);
+      editor.addShapes(shapes);
+
+      // 캔버스에 맞춰 뷰포트 자동 정렬
+      const el = canvasAreaRef.current;
+      if (el) {
+        // shapes가 state 반영된 다음 tick에 fitView
+        requestAnimationFrame(() =>
+          editor.fitView(el.clientWidth, el.clientHeight),
+        );
+      }
+    },
+    [editor],
+  );
+
   const isPanelOpen = activeNav === 'drawing' || activeNav === 'furniture';
 
   return (
@@ -66,6 +89,7 @@ const AppShell = () => {
               activeTool={activeTool}
               onToolClick={handleToolClick}
               onClose={handleClosePanel}
+              onUploadFloorPlan={handleUploadFloorPlan}
             />
           )}
           {isPanelOpen && activeNav === 'furniture' && (

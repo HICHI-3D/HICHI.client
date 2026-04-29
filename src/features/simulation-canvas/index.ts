@@ -1,3 +1,4 @@
+export { parsedToShapes } from './lib/parsedToShapes';
 export type {
   DrawingMode,
   Shape,

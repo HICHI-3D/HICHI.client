@@ -79,6 +79,26 @@ export function useEditor() {
     [pushHistory],
   );
 
+  /** 외부에서 도형들을 한꺼번에 추가 (예: 도면 이미지 파싱 결과) */
+  const addShapes = useCallback(
+    (incoming: Shape[]) => {
+      if (incoming.length === 0) return;
+      setShapes((prev) => {
+        pushHistory(prev);
+        return [...prev, ...incoming];
+      });
+    },
+    [pushHistory],
+  );
+
+  /** 모든 도형 삭제 */
+  const clearShapes = useCallback(() => {
+    setShapes((prev) => {
+      pushHistory(prev);
+      return [];
+    });
+  }, [pushHistory]);
+
   /* mode */
   const changeMode = useCallback((next: DrawingMode | null) => {
     setMode(next);
@@ -284,6 +304,8 @@ export function useEditor() {
     finishDraft,
     cancelDraft,
     removeShape,
+    addShapes,
+    clearShapes,
     // history
     undo,
     redo,
