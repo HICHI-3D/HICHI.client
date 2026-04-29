@@ -1,1 +1,1 @@
-export type { FurnitureItem } from './model/types';
+export type { FurnitureItem, FurnitureRecord } from './model/types';
