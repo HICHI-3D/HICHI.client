@@ -36,6 +36,13 @@ export type Unit = 'mm' | 'ft/in';
 
 export type ViewMode = '2D' | '3D';
 
+export type BackgroundImage = {
+  url: string;
+  widthMm: number;
+  heightMm: number;
+  opacity: number;
+};
+
 export const toolLabelToMode = (label: string | null): DrawingMode | null => {
   switch (label) {
     case '벽 그리기':

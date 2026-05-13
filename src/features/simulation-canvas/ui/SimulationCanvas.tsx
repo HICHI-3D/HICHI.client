@@ -23,6 +23,8 @@ const SimulationCanvas = ({ editor }: Props) => {
     hoverPoint,
     viewport,
     unit,
+    backgroundImage,
+    showDetectedWalls,
     setHoverPoint,
     handleCanvasClick,
     removeShape,
@@ -30,6 +32,11 @@ const SimulationCanvas = ({ editor }: Props) => {
     zoomAt,
     fitView,
   } = editor;
+
+  const hasBackground = backgroundImage !== null;
+  // 배경 이미지가 있을 때는 벽 색을 강조색으로 (사진 위에 잘 보이게)
+  const wallStrokeBase = hasBackground ? '#5b48d6' : '#474645';
+  const wallStrokeWidth = hasBackground ? 6 : 10;
 
   const svgRef = useRef<SVGSVGElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -235,7 +242,7 @@ const SimulationCanvas = ({ editor }: Props) => {
 
   const renderShape = (s: Shape) => {
     const isHover = hoveredShapeId === s.id;
-    const stroke = mode === 'delete' && isHover ? '#ef4444' : '#474645';
+    const stroke = mode === 'delete' && isHover ? '#ef4444' : wallStrokeBase;
     const fill =
       mode === 'delete' && isHover ? 'rgba(239,68,68,0.15)' : undefined;
 
@@ -262,7 +269,7 @@ const SimulationCanvas = ({ editor }: Props) => {
             x2={s.end.x}
             y2={s.end.y}
             stroke={stroke}
-            strokeWidth={10}
+            strokeWidth={wallStrokeWidth}
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             {...shapeProps}
@@ -426,7 +433,22 @@ const SimulationCanvas = ({ editor }: Props) => {
       <rect width="100%" height="100%" fill="url(#grid-major)" />
 
       <g transform={transform}>
-        {shapes.map(renderShape)}
+        {backgroundImage && (
+          <image
+            href={backgroundImage.url}
+            x={0}
+            y={0}
+            width={backgroundImage.widthMm}
+            height={backgroundImage.heightMm}
+            opacity={backgroundImage.opacity}
+            preserveAspectRatio="none"
+            style={{ pointerEvents: 'none' }}
+          />
+        )}
+        {(showDetectedWalls
+          ? shapes
+          : shapes.filter((s) => s.type !== 'wall')
+        ).map(renderShape)}
         {renderDraft()}
       </g>
     </svg>

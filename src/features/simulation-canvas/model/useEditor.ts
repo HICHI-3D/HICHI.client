@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import type {
+  BackgroundImage,
   DrawingMode,
   Point,
   Shape,
@@ -31,6 +32,9 @@ export function useEditor() {
   });
   const [unit, setUnit] = useState<Unit>('mm');
   const [viewMode, setViewMode] = useState<ViewMode>('2D');
+  const [backgroundImage, setBackgroundImage] =
+    useState<BackgroundImage | null>(null);
+  const [showDetectedWalls, setShowDetectedWalls] = useState(true);
 
   /* history */
   const pushHistory = useCallback((prev: Shape[]) => {
@@ -216,7 +220,7 @@ export function useEditor() {
 
   const fitView = useCallback(
     (screenW: number, screenH: number) => {
-      if (shapes.length === 0) {
+      if (shapes.length === 0 && !backgroundImage) {
         setViewport((v) => ({
           ...v,
           panX: screenW / 2,
@@ -254,6 +258,11 @@ export function useEditor() {
           visit({ x: s.cx + s.r, y: s.cy + s.r });
         }
       }
+      // 도형이 없어도 배경 이미지 영역에 맞춰 보이게
+      if (backgroundImage) {
+        visit({ x: 0, y: 0 });
+        visit({ x: backgroundImage.widthMm, y: backgroundImage.heightMm });
+      }
       const pad = 100;
       const w = maxX - minX + pad * 2;
       const h = maxY - minY + pad * 2;
@@ -265,7 +274,7 @@ export function useEditor() {
         panY: screenH / 2 - ((minY + maxY) / 2) * zoom,
       }));
     },
-    [shapes],
+    [shapes, backgroundImage],
   );
 
   /* escape/enter keyboard */
@@ -291,12 +300,16 @@ export function useEditor() {
     viewport,
     unit,
     viewMode,
+    backgroundImage,
+    showDetectedWalls,
     canUndo: history.length > 0,
     canRedo: future.length > 0,
     // state setters
     setHoverPoint,
     setUnit,
     setViewMode,
+    setBackgroundImage,
+    setShowDetectedWalls,
     // mode
     changeMode,
     // interactions

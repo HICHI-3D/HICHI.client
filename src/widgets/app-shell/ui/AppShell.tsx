@@ -2,11 +2,13 @@ import { DrawingPanel } from '@features/drawing-panel';
 import { FurniturePanel } from '@features/furniture-panel';
 import {
   parsedToShapes,
+  Scene3DCanvas,
   SimulationCanvas,
   toolLabelToMode,
   useEditor,
 } from '@features/simulation-canvas';
 import { uploadFloorPlan } from '@shared/api';
+import { config } from '@shared/config';
 import { FooterNav } from '@widgets/footer-nav';
 import { Header } from '@widgets/header';
 import { SideNav } from '@widgets/side-nav';
@@ -64,6 +66,22 @@ const AppShell = () => {
       const shapes = parsedToShapes(result.parsed);
       editor.addShapes(shapes);
 
+      const parser = result.parsed.parser ?? 'opencv';
+      const wallCount = result.parsed.walls.length;
+
+      // 원본 이미지를 캔버스 배경으로 설정 (사진 같은 느낌)
+      if (result.image_url) {
+        const { image_width, image_height, pixels_per_mm } =
+          result.parsed.meta;
+        const ppm = pixels_per_mm > 0 ? pixels_per_mm : config.defaultPixelsPerMm;
+        editor.setBackgroundImage({
+          url: `${config.apiBaseUrl}${result.image_url}`,
+          widthMm: image_width / ppm,
+          heightMm: image_height / ppm,
+          opacity: 0.85,
+        });
+      }
+
       // 캔버스에 맞춰 뷰포트 자동 정렬
       const el = canvasAreaRef.current;
       if (el) {
@@ -72,6 +90,8 @@ const AppShell = () => {
           editor.fitView(el.clientWidth, el.clientHeight),
         );
       }
+
+      return { parser, wallCount };
     },
     [editor],
   );
@@ -83,7 +103,7 @@ const AppShell = () => {
       <SideNav activeNav={activeNav} onNavClick={handleNavClick} />
       <div className="min-w-0 col flex-1">
         <Header />
-        <div className="min-h-0 flex flex-1">
+        <div className="min-h-0 flex flex-1 bg-gray-100">
           {isPanelOpen && activeNav === 'drawing' && (
             <DrawingPanel
               activeTool={activeTool}
@@ -97,7 +117,11 @@ const AppShell = () => {
           )}
           <div className="min-w-0 min-h-0 w-full col flex-1 relative">
             <div ref={canvasAreaRef} className="min-h-0 flex-1">
-              <SimulationCanvas editor={editor} />
+              {editor.viewMode === '3D' ? (
+                <Scene3DCanvas editor={editor} />
+              ) : (
+                <SimulationCanvas editor={editor} />
+              )}
             </div>
             <FooterNav editor={editor} onFitView={fitToView} />
           </div>

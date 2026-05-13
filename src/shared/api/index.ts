@@ -18,6 +18,7 @@ export type ParsedFloorPlan = {
   walls: ParsedWall[];
   rooms: unknown[];
   openings: unknown[];
+  parser?: 'vision' | 'opencv';
   meta: {
     image_width: number;
     image_height: number;
@@ -32,6 +33,7 @@ export type FloorPlanUploadResponse = {
   status: 'uploaded' | 'parsed' | 'failed';
   parsed: ParsedFloorPlan | null;
   error: string | null;
+  image_url: string | null;
   created_at: string;
 };
 
