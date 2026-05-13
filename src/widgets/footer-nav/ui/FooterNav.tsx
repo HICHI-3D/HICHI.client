@@ -34,8 +34,19 @@ const ToolBtn = ({ active, onClick, children, title }: IconBtnProps) => (
 /* ── FooterNav ──────────────────────────────────── */
 
 const FooterNav = ({ editor, onFitView }: Props) => {
-  const { viewport, viewMode, unit, setViewMode, setUnit, toggleLock, zoomAt } =
-    editor;
+  const {
+    viewport,
+    viewMode,
+    unit,
+    backgroundImage,
+    showDetectedWalls,
+    setViewMode,
+    setUnit,
+    toggleLock,
+    zoomAt,
+    setBackgroundImage,
+    setShowDetectedWalls,
+  } = editor;
 
   return (
     <footer
@@ -43,13 +54,13 @@ const FooterNav = ({ editor, onFitView }: Props) => {
       style={{ bottom: 0, left: 0 }}
     >
       {/* ── 2D / 3D 전환 ── */}
-      <div className="flex rounded-12 p-4 ds-all-12 gap-8">
+      <div className="flex rounded-12 p-6 border border-gray-400 gap-8">
         {(['2D', '3D'] as ViewMode[]).map((mode) => (
           <button
             key={mode}
             onClick={() => setViewMode(mode)}
             className={[
-              'flex-center size-56 rounded-8 label-l transition-colors cursor-pointer',
+              'flex-center size-56 rounded-8 label-l cursor-pointer',
               viewMode === mode
                 ? 'bg-functional-indigo-20 text-functional-indigo'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
@@ -60,10 +71,44 @@ const FooterNav = ({ editor, onFitView }: Props) => {
         ))}
       </div>
 
+      {/* ── 배경 도면 컨트롤 (도면 업로드 후에만 보임) ── */}
+      {backgroundImage && (
+        <div className="flex items-center gap-8 border border-gray-400 rounded-8 bg-gray-100 p-6 ">
+          <button
+            onClick={() => setShowDetectedWalls(!showDetectedWalls)}
+            className={[
+              'px-12 py-8 rounded-8 label-m transition-colors cursor-pointer',
+              showDetectedWalls
+                ? 'bg-functional-indigo-20 text-functional-indigo'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            ].join(' ')}
+            title="AI가 검출한 벽 표시 / 숨기기"
+          >
+            벽 {showDetectedWalls ? '숨기기' : '표시'}
+          </button>
+          <div className="flex items-center gap-6 px-8">
+            <span className="label-s text-gray-700">투명도</span>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={Math.round(backgroundImage.opacity * 100)}
+              onChange={(e) =>
+                setBackgroundImage({
+                  ...backgroundImage,
+                  opacity: Number(e.target.value) / 100,
+                })
+              }
+              className="w-[100px] cursor-pointer"
+            />
+          </div>
+        </div>
+      )}
+
       {/* ── 도구 버튼 그룹 ── */}
       <div
         className="
-        flex items-center gap-8 rounded-8 bg-gray-100 p-4 ds-all-12
+        flex items-center gap-8 rounded-8 bg-gray-100 p-6 border border-gray-400
       "
       >
         <ToolBtn

@@ -1,10 +1,17 @@
 import { useRef, useState } from 'react';
 
+type UploadResult = {
+  parser: 'vision' | 'opencv';
+  wallCount: number;
+};
+
 type Props = {
   activeTool: string | null;
   onToolClick: (tool: string) => void;
   onClose: () => void;
-  onUploadFloorPlan?: (file: File) => Promise<void> | void;
+  onUploadFloorPlan?: (
+    file: File,
+  ) => Promise<UploadResult | void> | UploadResult | void;
 };
 
 type ToolGroup = {
@@ -22,47 +29,22 @@ const toolGroups: ToolGroup[] = [
   { category: '도면 반전', tools: ['좌우 반전'] },
 ];
 
-// 패널 접기 아이콘 (sidebar.left)
-const CollapseIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <rect
-      x="2.5"
-      y="3.5"
-      width="19"
-      height="17"
-      rx="2"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="8.5"
-      y1="3.5"
-      x2="8.5"
-      y2="20.5"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M13 9.5L11 12L13 14.5"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 const DrawingPanel = ({
   activeTool,
   onToolClick,
-  onClose,
   onUploadFloorPlan,
 }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadStatus, setUploadStatus] = useState<
     | { type: 'idle' }
     | { type: 'loading'; filename: string }
-    | { type: 'success'; filename: string }
+    | {
+        type: 'success';
+        filename: string;
+        parser?: 'vision' | 'opencv';
+        wallCount?: number;
+      }
     | { type: 'error'; message: string }
   >({ type: 'idle' });
 
@@ -81,8 +63,17 @@ const DrawingPanel = ({
 
     setUploadStatus({ type: 'loading', filename: file.name });
     try {
-      await onUploadFloorPlan(file);
-      setUploadStatus({ type: 'success', filename: file.name });
+      const info = await onUploadFloorPlan(file);
+      if (info && typeof info === 'object' && 'parser' in info) {
+        setUploadStatus({
+          type: 'success',
+          filename: file.name,
+          parser: info.parser,
+          wallCount: info.wallCount,
+        });
+      } else {
+        setUploadStatus({ type: 'success', filename: file.name });
+      }
     } catch (err) {
       setUploadStatus({
         type: 'error',
@@ -94,22 +85,12 @@ const DrawingPanel = ({
   return (
     <aside
       className="
-      col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 ds-right-12
+      col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 border-r border-gray-400 rounded-r-8
     "
     >
       {/* 패널 헤더 */}
-      <div className="flex shrink-0 items-center justify-between px-12 py-8">
+      <div className="flex shrink-0 items-center justify-between px-16 py-16">
         <span className="body-s text-black">도면 그리기</span>
-        <button
-          onClick={onClose}
-          className="
-            flex-center size-24 cursor-pointer rounded-8 text-gray-700
-            transition-colors
-            hover:bg-gray-300
-          "
-        >
-          <CollapseIcon />
-        </button>
       </div>
 
       {/* 구분선 */}
@@ -146,7 +127,7 @@ const DrawingPanel = ({
                     onClick={() => handleToolButton(tool)}
                     disabled={isUploading}
                     className={[
-                      'flex items-center px-12 py-12 rounded-8 ds-under-2 transition-colors w-full text-left',
+                      'flex items-center px-12 py-12 border border-gray-400 rounded-8  transition-colors w-full text-left',
                       isUploading
                         ? 'bg-gray-200 text-gray-700 cursor-wait'
                         : 'cursor-pointer',
@@ -177,9 +158,20 @@ const DrawingPanel = ({
               </p>
             )}
             {uploadStatus.type === 'success' && (
-              <p className="label-s text-functional-indigo">
-                도면 적용 완료: {uploadStatus.filename}
-              </p>
+              <div className="col gap-2">
+                <p className="label-s text-functional-indigo">
+                  도면 적용 완료: {uploadStatus.filename}
+                </p>
+                {uploadStatus.parser !== undefined && (
+                  <p className="label-s text-gray-700">
+                    AI 인식:{' '}
+                    {uploadStatus.parser === 'vision'
+                      ? 'Gemini Vision'
+                      : 'OpenCV (fallback)'}{' '}
+                    · 벽 {uploadStatus.wallCount ?? 0}개
+                  </p>
+                )}
+              </div>
             )}
             {uploadStatus.type === 'error' && (
               <p className="label-s text-red-500">

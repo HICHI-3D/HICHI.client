@@ -14,8 +14,7 @@ const Header = () => {
   return (
     <header
       className="
-      flex w-full shrink-0 items-center justify-between bg-gray-200 p-12
-      ds-under-12
+      flex w-full shrink-0 items-center justify-between bg-gray-200 p-12  border-b border-gray-400
     "
     >
       {/* 실행취소 / 되돌리기 */}
@@ -35,12 +34,10 @@ const Header = () => {
       </div>
 
       {/* 프로필 카드 / 저장 / 나가기 */}
-      <div className="flex items-center gap-8">
-        {/* 유저 프로필 카드 */}
+      <div className="flex items-center gap-8 ">
         <div
           className="
-          flex w-[183px] items-center gap-12 rounded-8 bg-gray-100 px-16 py-12
-          ds-all-12
+          flex w-[183px] items-center gap-12 rounded-8 bg-gray-100 px-16 py-12 border border-gray-400 mr-12
         "
         >
           <div className="size-28 shrink-0 rounded-max bg-functional-indigo" />
@@ -55,23 +52,19 @@ const Header = () => {
             <Icon name="setting" alt="설정" className="size-28" />
           </div>
         </div>
-
-        {/* 저장 버튼 */}
         <button
           className="
-          col flex-center gap-4 rounded-8 bg-functional-indigo px-12 py-6
+          col flex-center gap-4 rounded-8 bg-functional-indigo-20 px-12 py-6
           transition-colors
-          hover:bg-functional-indigo-60
+          hover:bg-functional-indigo-40
         "
         >
           <Icon name="save" alt="저장" className="size-28" />
-          <span className="label-m text-gray-200">저장</span>
+          <span className="label-m text-functional-indigo">저장</span>
         </button>
-
-        {/* 나가기 버튼 */}
         <button
           className="
-          col flex-center w-[60px] gap-4 rounded-8 px-8 py-6 transition-colors
+          col flex-center w-[60px] gap-4 rounded-8 px-4 py-6 transition-colors
           hover:bg-gray-300
         "
         >
