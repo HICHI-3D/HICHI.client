@@ -75,19 +75,6 @@ const FurniturePanel = () => {
 
         {/* 내용 */}
         <div className="col flex-1 gap-12 overflow-hidden px-12 py-8">
-          {/* 스캔 버튼 */}
-          <button
-            type="button"
-            onClick={() => setScanOpen(true)}
-            className="
-              flex-center gap-6 shrink-0 rounded-8 bg-functional-indigo
-              px-12 py-10 label-l text-white cursor-pointer transition-opacity
-              hover:opacity-80
-            "
-          >
-            <PlusIcon />
-            가구 스캔
-          </button>
 
           {/* 탭 + 검색 */}
           <div className="col shrink-0 gap-12">
@@ -141,6 +128,7 @@ const FurniturePanel = () => {
           {!loadError && filteredItems.length === 0 && (
             <p className="label-s text-gray-700">
               아직 스캔한 가구가 없어요. "가구 스캔"으로 시작하세요.
+              {/* 모바일 url 이나 qr코드 */}
             </p>
           )}
 
