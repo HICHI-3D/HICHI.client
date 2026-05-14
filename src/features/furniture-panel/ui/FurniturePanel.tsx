@@ -18,7 +18,7 @@ const MOCK_ITEMS: any[] = [
   { id: 'mock-table', name: 'Table', type: 'table', width: 1200, depth: 800, height: 750, color: '#92400e', isMock: true },
 ];
 
-const FurniturePanel = ({ onClose }: { onClose: () => void }) => {
+const FurniturePanel = ({ }: { onClose: () => void }) => {
   const [activeTab, setActiveTab] = useState<Tab>('전체');
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState<FurnitureRecord[]>([]);
@@ -50,12 +50,9 @@ const FurniturePanel = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <>
-      <aside className="col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 border-r border-gray-400 rounded-r-8">
+      <aside className="col h-full w-[284px] shrink-0 overflow-hidden bg-gray-150 border-r border-gray-400 rounded-r-8">
         <div className="flex shrink-0 items-center justify-between px-16 py-16">
           <span className="body-s text-black">가구 리스트</span>
-          <button onClick={onClose} className="text-gray-500 hover:text-black">
-            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M15 5L5 15M5 5l10 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
         </div>
         <div className="h-px w-full shrink-0 bg-gray-400" />
         <div className="col flex-1 gap-12 overflow-hidden px-12 py-8">
@@ -77,7 +74,7 @@ const FurniturePanel = ({ onClose }: { onClose: () => void }) => {
               const isMock = item.isMock;
               const isReady = isMock || item.scan_status === 'completed';
               return (
-                <button key={item.id} draggable={isMock} onDragStart={isMock ? (e) => handleDragStart(e, item) : undefined} onClick={() => !isMock && isReady && setViewing(item)} disabled={!isReady} className={['col gap-6 p-8 rounded-12 ds-under-2 text-left transition-colors bg-gray-200', isReady ? 'cursor-pointer hover:bg-gray-300' : 'cursor-default'].join(' ')}>
+                <button key={item.id} draggable={isMock} onDragStart={isMock ? (e) => handleDragStart(e, item) : undefined} onClick={() => !isMock && isReady && setViewing(item)} disabled={!isReady} className={['col gap-6 p-8 border border-gray-400 rounded-12 text-left transition-colors bg-gray-200', isReady ? 'cursor-pointer hover:bg-gray-300' : 'cursor-default'].join(' ')}>
                   <span className="label-l text-gray-800">{item.name}</span>
                   <div className="size-[108px] flex-center rounded-8 bg-gray-100" style={isMock ? { backgroundColor: item.color + '22', border: `1px solid ${item.color}` } : {}}>
                     {isMock ? <span className="label-s" style={{ color: item.color }}>DRAG</span> : <span className="label-s text-functional-indigo">{isReady ? '3D' : (item.scan_progress * 100).toFixed(0) + '%'}</span>}

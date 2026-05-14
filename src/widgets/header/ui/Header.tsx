@@ -21,7 +21,7 @@ const Header = ({ editor }: Props) => {
           className="col flex-center gap-4 rounded-8 px-8 py-6 transition-colors hover:bg-gray-300 disabled:opacity-30"
         >
           <Icon name="arrow-back" alt="Undo" className="size-28" />
-          <span className="label-m text-gray-500">Undo</span>
+          <span className="label-m text-gray-500">실행취소</span>
         </button>
         <button
           disabled={!canRedo}
@@ -29,7 +29,7 @@ const Header = ({ editor }: Props) => {
           className="col flex-center gap-4 rounded-8 px-8 py-6 transition-colors hover:bg-gray-300 disabled:opacity-30"
         >
           <Icon name="arrow-undo" alt="Redo" className="size-28" />
-          <span className="label-m text-gray-500">Redo</span>
+          <span className="label-m text-gray-500">다시실행</span>
         </button>
       </div>
 

@@ -85,7 +85,7 @@ const DrawingPanel = ({
   return (
     <aside
       className="
-      col h-full w-[284px] shrink-0 overflow-hidden bg-gray-100 border-r border-gray-400 rounded-r-8
+      col h-full w-[284px] shrink-0 overflow-hidden bg-gray-150 border-r border-gray-400 rounded-r-8
     "
     >
       {/* 패널 헤더 */}
