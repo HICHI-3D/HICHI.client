@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type {
   BackgroundImage,
   DrawingMode,
+  FurnitureInstance,
   Point,
   Shape,
   Unit,
@@ -14,11 +15,24 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 
 export type Editor = ReturnType<typeof useEditor>;
 
-export function useEditor() {
-  const [shapes, setShapes] = useState<Shape[]>([]);
-  const [history, setHistory] = useState<Shape[][]>([]);
-  const [future, setFuture] = useState<Shape[][]>([]);
+type EditorState = {
+  shapes: Shape[];
+  placedFurniture: FurnitureInstance[];
+};
 
+export function useEditor() {
+  const [state, setState] = useState<EditorState>({
+    shapes: [],
+    placedFurniture: [],
+  });
+  const [history, setHistory] = useState<EditorState[]>([]);
+  const [future, setFuture] = useState<EditorState[]>([]);
+
+  const { shapes, placedFurniture } = state;
+
+  const [selectedFurnitureId, setSelectedFurnitureId] = useState<string | null>(
+    null,
+  );
   const [mode, setMode] = useState<DrawingMode | null>(null);
   const [draftPoints, setDraftPoints] = useState<Point[]>([]);
   const [hoverPoint, setHoverPoint] = useState<Point | null>(null);
@@ -37,7 +51,7 @@ export function useEditor() {
   const [showDetectedWalls, setShowDetectedWalls] = useState(true);
 
   /* history */
-  const pushHistory = useCallback((prev: Shape[]) => {
+  const pushHistory = useCallback((prev: EditorState) => {
     setHistory((h) => [...h.slice(-49), prev]);
     setFuture([]);
   }, []);
@@ -46,75 +60,120 @@ export function useEditor() {
     setHistory((h) => {
       if (h.length === 0) return h;
       const prev = h[h.length - 1];
-      setFuture((f) => [shapes, ...f]);
-      setShapes(prev);
+      setFuture((f) => [state, ...f]);
+      setState(prev);
       return h.slice(0, -1);
     });
-  }, [shapes]);
+  }, [state]);
 
   const redo = useCallback(() => {
     setFuture((f) => {
       if (f.length === 0) return f;
       const next = f[0];
-      setHistory((h) => [...h, shapes]);
-      setShapes(next);
+      setHistory((h) => [...h, state]);
+      setState(next);
       return f.slice(1);
     });
-  }, [shapes]);
+  }, [state]);
+
+  /* state helpers */
+  const commitState = useCallback(
+    (next: EditorState) => {
+      pushHistory(state);
+      setState(next);
+    },
+    [pushHistory, state],
+  );
 
   /* shape helpers */
   const commitShape = useCallback(
     (shape: Shape) => {
-      setShapes((prev) => {
-        pushHistory(prev);
-        return [...prev, shape];
-      });
+      commitState({ ...state, shapes: [...state.shapes, shape] });
     },
-    [pushHistory],
+    [commitState, state],
   );
 
   const removeShape = useCallback(
     (id: string) => {
-      setShapes((prev) => {
-        pushHistory(prev);
-        return prev.filter((s) => s.id !== id);
+      commitState({
+        ...state,
+        shapes: state.shapes.filter((s) => s.id !== id),
       });
     },
-    [pushHistory],
+    [commitState, state],
   );
 
   /** 외부에서 도형들을 한꺼번에 추가 (예: 도면 이미지 파싱 결과) */
   const addShapes = useCallback(
     (incoming: Shape[]) => {
       if (incoming.length === 0) return;
-      setShapes((prev) => {
-        pushHistory(prev);
-        return [...prev, ...incoming];
-      });
+      commitState({ ...state, shapes: [...state.shapes, ...incoming] });
     },
-    [pushHistory],
+    [commitState, state],
   );
 
   /** 모든 도형 삭제 */
   const clearShapes = useCallback(() => {
-    setShapes((prev) => {
-      pushHistory(prev);
-      return [];
-    });
-  }, [pushHistory]);
+    commitState({ ...state, shapes: [] });
+  }, [commitState, state]);
+
+  /* furniture helpers */
+  const addFurniture = useCallback(
+    (f: Omit<FurnitureInstance, 'id'>) => {
+      const newF = { ...f, id: uid() };
+      commitState({
+        ...state,
+        placedFurniture: [...state.placedFurniture, newF],
+      });
+      setSelectedFurnitureId(newF.id);
+    },
+    [commitState, state],
+  );
+
+  const removeFurniture = useCallback(
+    (id: string) => {
+      commitState({
+        ...state,
+        placedFurniture: state.placedFurniture.filter((f) => f.id !== id),
+      });
+      if (selectedFurnitureId === id) setSelectedFurnitureId(null);
+    },
+    [commitState, state, selectedFurnitureId],
+  );
+
+  const updateFurniture = useCallback(
+    (id: string, updates: Partial<FurnitureInstance>) => {
+      commitState({
+        ...state,
+        placedFurniture: state.placedFurniture.map((f) =>
+          f.id === id ? { ...f, ...updates } : f,
+        ),
+      });
+    },
+    [commitState, state],
+  );
+
+  const selectFurniture = useCallback((id: string | null) => {
+    setSelectedFurnitureId(id);
+    if (id) setMode('select');
+  }, []);
 
   /* mode */
   const changeMode = useCallback((next: DrawingMode | null) => {
     setMode(next);
     setDraftPoints([]);
+    if (next !== 'select') setSelectedFurnitureId(null);
   }, []);
 
   /* interaction — commit point for current mode */
   const handleCanvasClick = useCallback(
     (world: Point) => {
-      if (!mode) return;
+      if (!mode) {
+        setSelectedFurnitureId(null);
+        return;
+      }
 
-      if (mode === 'delete') return; // delete handled via shape click
+      if (mode === 'delete' || mode === 'select') return; // handled via item click
 
       setDraftPoints((pts) => {
         const points = [...pts, world];
@@ -220,7 +279,7 @@ export function useEditor() {
 
   const fitView = useCallback(
     (screenW: number, screenH: number) => {
-      if (shapes.length === 0 && !backgroundImage) {
+      if (shapes.length === 0 && placedFurniture.length === 0 && !backgroundImage) {
         setViewport((v) => ({
           ...v,
           panX: screenW / 2,
@@ -258,6 +317,12 @@ export function useEditor() {
           visit({ x: s.cx + s.r, y: s.cy + s.r });
         }
       }
+      for (const f of placedFurniture) {
+        // approximate bbox for furniture
+        const r = Math.max(f.width, f.depth) / 2;
+        visit({ x: f.position.x - r, y: f.position.y - r });
+        visit({ x: f.position.x + r, y: f.position.y + r });
+      }
       // 도형이 없어도 배경 이미지 영역에 맞춰 보이게
       if (backgroundImage) {
         visit({ x: 0, y: 0 });
@@ -274,7 +339,7 @@ export function useEditor() {
         panY: screenH / 2 - ((minY + maxY) / 2) * zoom,
       }));
     },
-    [shapes, backgroundImage],
+    [shapes, placedFurniture, backgroundImage],
   );
 
   /* escape/enter keyboard */
@@ -283,17 +348,24 @@ export function useEditor() {
       if (e.key === 'Escape') {
         cancelDraft();
         setMode(null);
+        setSelectedFurnitureId(null);
       } else if (e.key === 'Enter') {
         finishDraft();
+      } else if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (selectedFurnitureId) {
+          removeFurniture(selectedFurnitureId);
+        }
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [cancelDraft, finishDraft]);
+  }, [cancelDraft, finishDraft, selectedFurnitureId, removeFurniture]);
 
   return {
     // state
     shapes,
+    placedFurniture,
+    selectedFurnitureId,
     mode,
     draftPoints,
     hoverPoint,
@@ -319,6 +391,11 @@ export function useEditor() {
     removeShape,
     addShapes,
     clearShapes,
+    // furniture
+    addFurniture,
+    removeFurniture,
+    updateFurniture,
+    selectFurniture,
     // history
     undo,
     redo,

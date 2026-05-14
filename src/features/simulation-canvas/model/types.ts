@@ -7,7 +7,22 @@ export type DrawingMode =
   | 'circle-column'
   | 'aux-line'
   | 'measurement'
-  | 'delete';
+  | 'delete'
+  | 'select';
+
+export type FurnitureType = 'sofa' | 'table';
+
+export type FurnitureInstance = {
+  id: string;
+  type: FurnitureType;
+  name: string;
+  position: Point; // center position in mm
+  rotation: number; // Y-axis rotation in degrees
+  width: number; // mm
+  depth: number; // mm
+  height: number; // mm
+  color: string;
+};
 
 export type Shape =
   | { id: string; type: 'wall'; start: Point; end: Point }
@@ -59,6 +74,8 @@ export const toolLabelToMode = (label: string | null): DrawingMode | null => {
       return 'aux-line';
     case '측정':
       return 'measurement';
+    case '선택':
+      return 'select';
     default:
       return null;
   }

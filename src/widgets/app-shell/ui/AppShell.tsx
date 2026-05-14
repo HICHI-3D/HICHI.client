@@ -102,7 +102,7 @@ const AppShell = () => {
     <div className="flex size-full">
       <SideNav activeNav={activeNav} onNavClick={handleNavClick} />
       <div className="min-w-0 col flex-1">
-        <Header />
+        <Header editor={editor} />
         <div className="min-h-0 flex flex-1 bg-gray-100">
           {isPanelOpen && activeNav === 'drawing' && (
             <DrawingPanel
