@@ -4,6 +4,8 @@ import { FurnitureScanModal } from '@features/furniture-scan';
 import { listFurniture } from '@shared/api';
 import { useCallback, useEffect, useState } from 'react';
 
+import FurnitureThumbnail from './FurnitureThumbnail';
+
 type Tab = '전체' | '즐겨찾기' | '배치된 가구';
 
 const SearchIcon = () => (
@@ -14,8 +16,12 @@ const SearchIcon = () => (
 );
 
 const MOCK_ITEMS: any[] = [
-  { id: 'mock-sofa', name: 'Sofa', type: 'sofa', width: 2000, depth: 800, height: 800, color: '#3b82f6', isMock: true },
-  { id: 'mock-table', name: 'Table', type: 'table', width: 1200, depth: 800, height: 750, color: '#92400e', isMock: true },
+  { id: 'mock-sofa', name: '3인 소파', type: 'sofa', width: 2100, depth: 900, height: 850, color: '#4f46e5', isMock: true },
+  { id: 'mock-table', name: '다이닝 테이블', type: 'table', width: 1400, depth: 800, height: 750, color: '#92400e', isMock: true },
+  { id: 'mock-chair', name: '다이닝 의자', type: 'chair', width: 450, depth: 450, height: 900, color: '#64748b', isMock: true },
+  { id: 'mock-bed', name: '퀸 침대', type: 'bed', width: 1600, depth: 2100, height: 500, color: '#b45309', isMock: true },
+  { id: 'mock-bookshelf', name: '책장', type: 'bookshelf', width: 800, depth: 350, height: 1800, color: '#78716c', isMock: true },
+  { id: 'mock-tvstand', name: 'TV 스탠드', type: 'tv-stand', width: 1500, depth: 450, height: 550, color: '#44403c', isMock: true },
 ];
 
 const FurniturePanel = ({ }: { onClose: () => void }) => {
@@ -74,11 +80,18 @@ const FurniturePanel = ({ }: { onClose: () => void }) => {
               const isMock = item.isMock;
               const isReady = isMock || item.scan_status === 'completed';
               return (
-                <button key={item.id} draggable={isMock} onDragStart={isMock ? (e) => handleDragStart(e, item) : undefined} onClick={() => !isMock && isReady && setViewing(item)} disabled={!isReady} className={['col gap-6 p-8 border border-gray-400 rounded-12 text-left transition-colors bg-gray-200', isReady ? 'cursor-pointer hover:bg-gray-300' : 'cursor-default'].join(' ')}>
+              <button key={item.id} draggable={isMock} onDragStart={isMock ? (e) => handleDragStart(e, item) : undefined} onClick={() => !isMock && isReady && setViewing(item)} disabled={!isReady} className={['col gap-6 p-8 border border-gray-400 rounded-12 text-left transition-all bg-gray-200', isReady ? 'cursor-pointer hover:bg-gray-300 hover:shadow-sm' : 'cursor-default opacity-60'].join(' ')}>
                   <span className="label-l text-gray-800">{item.name}</span>
-                  <div className="size-[108px] flex-center rounded-8 bg-gray-100" style={isMock ? { backgroundColor: item.color + '22', border: `1px solid ${item.color}` } : {}}>
-                    {isMock ? <span className="label-s" style={{ color: item.color }}>DRAG</span> : <span className="label-s text-functional-indigo">{isReady ? '3D' : (item.scan_progress * 100).toFixed(0) + '%'}</span>}
+                  <div className="size-[108px] flex-center rounded-8 bg-gray-100 overflow-hidden">
+                    {isMock ? (
+                      <FurnitureThumbnail type={item.type} size={108} />
+                    ) : (
+                      <span className="label-s text-functional-indigo">{isReady ? '3D' : (item.scan_progress * 100).toFixed(0) + '%'}</span>
+                    )}
                   </div>
+                  {isMock && (
+                    <span className="label-s text-gray-500">{item.width}×{item.depth}mm</span>
+                  )}
                 </button>
               );
             })}

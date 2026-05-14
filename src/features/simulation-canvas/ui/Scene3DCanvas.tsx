@@ -4,8 +4,9 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { Suspense, useLayoutEffect, useRef } from 'react';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import type { BackgroundImage, FurnitureInstance, Shape } from '../model/types';
+import type { BackgroundImage, Shape } from '../model/types';
 import type { Editor } from '../model/useEditor';
+import FurnitureMesh3D from './FurnitureMesh3D';
 
 const WALL_HEIGHT = 2.4;
 const WALL_THICKNESS = 0.12;
@@ -56,15 +57,7 @@ const RoomMesh = ({ shape }: { shape: Extract<Shape, { type: 'room' }> }) => {
   );
 };
 
-const FurnitureMesh = ({ furniture }: { furniture: FurnitureInstance }) => {
-  const w = furniture.width / 1000, h = furniture.height / 1000, d = furniture.depth / 1000;
-  return (
-    <mesh position={[furniture.position.x / 1000, h / 2, furniture.position.y / 1000]} rotation={[0, -(furniture.rotation * Math.PI) / 180, 0]} castShadow receiveShadow>
-      <boxGeometry args={[w, h, d]} />
-      <meshStandardMaterial color={furniture.color} />
-    </mesh>
-  );
-};
+
 
 const BackgroundFloor = ({ bg }: { bg: BackgroundImage }) => {
   const tex = useTexture(bg.url);
@@ -118,7 +111,7 @@ const Scene3DCanvas = ({ editor }: { editor: Editor }) => {
           if (s.type === 'room') return <RoomMesh key={s.id} shape={s} />;
           return null;
         })}
-        {editor.placedFurniture.map(f => <FurnitureMesh key={f.id} furniture={f} />)}
+        {editor.placedFurniture.map(f => <FurnitureMesh3D key={f.id} furniture={f} />)}
       </Canvas>
     </div>
   );

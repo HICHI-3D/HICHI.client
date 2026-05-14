@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { FurnitureInstance, Point, Shape } from '../model/types';
+import type { Point, Shape } from '../model/types';
 import type { Editor } from '../model/useEditor';
+import FurnitureSvg from './FurnitureSvg';
 
 type Props = { editor: Editor };
 
@@ -266,13 +267,11 @@ const SimulationCanvas = ({ editor }: Props) => {
     }
   };
 
-  const renderFurniture = (f: FurnitureInstance) => {
+  const renderFurniture = (f: typeof placedFurniture[number]) => {
     const isSelected = selectedFurnitureId === f.id;
     return (
-      <g key={f.id} transform={`translate(${f.position.x}, ${f.position.y}) rotate(${f.rotation})`} style={{ cursor: 'move' }}>
-        <rect x={-f.width / 2} y={-f.depth / 2} width={f.width} height={f.depth} fill={f.color} fillOpacity={0.6} stroke={isSelected ? '#5b48d6' : f.color} strokeWidth={isSelected ? 40 : 10} vectorEffect="non-scaling-stroke" />
-        {isSelected && <circle r={40} cx={f.width / 2 + 100} cy={0} fill="#5b48d6" style={{ cursor: 'pointer' }} onPointerDown={e => { e.stopPropagation(); updateFurniture(f.id, { rotation: (f.rotation + 15) % 360 }); }} />}
-        <text y={f.depth / 2 + 150} fontSize={12 / viewport.zoom} textAnchor="middle" fill="#474645" style={{ pointerEvents: 'none' }}>{f.name}</text>
+      <g key={f.id} onPointerDown={(e) => { if (isSelected) { e.stopPropagation(); updateFurniture(f.id, { rotation: (f.rotation + 15) % 360 }); } }}>
+        <FurnitureSvg furniture={f} isSelected={isSelected} zoom={viewport.zoom} />
       </g>
     );
   };

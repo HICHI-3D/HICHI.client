@@ -10,7 +10,7 @@ export type DrawingMode =
   | 'delete'
   | 'select';
 
-export type FurnitureType = 'sofa' | 'table';
+export type FurnitureType = 'sofa' | 'table' | 'chair' | 'bed' | 'bookshelf' | 'tv-stand';
 
 export type FurnitureInstance = {
   id: string;
